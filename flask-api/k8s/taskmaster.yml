@@ -14,9 +14,14 @@ spec:
       labels:
         app: taskmaster
     spec:
+      initContainers:
+        - name: wait-for-mongo
+          image: busybox
+          command: ['sh', '-c', 'until nc -zv mongo 27017; do echo waiting for mongo; sleep 5; done;']
       containers:
         - name: taskmaster
           image: kunalgohrani/microservicespythonapp:latest
           ports:
             - containerPort: 5000
           imagePullPolicy: Always
+
