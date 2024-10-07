@@ -21,6 +21,14 @@ spec:
           volumeMounts:
             - name: storage
               mountPath: /data/db
+          readinessProbe:
+            exec:
+              command:
+                - mongo
+                - --eval
+                - db.adminCommand('ping')
+            initialDelaySeconds: 5
+            periodSeconds: 10
       volumes:
         - name: storage
           persistentVolumeClaim:
